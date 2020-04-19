@@ -2,6 +2,7 @@ import { environment } from "../common/environment";
 import { validateCPF } from "./../common/validators";
 import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt";
+import { userInfo } from "os";
 
 export interface Reseller extends mongoose.Document {
   name: string;
@@ -26,7 +27,6 @@ const resellerSchema = new mongoose.Schema({
     type: String,
     select: false,
     minlength: 6,
-    maxlength: 8,
     required: true,
   },
   cpf: {
@@ -44,16 +44,21 @@ const resellerSchema = new mongoose.Schema({
   },
 });
 
-const hashPassword = async (passwd, next) => {
-  passwd = await bcrypt.hashSync(passwd, environment.security.saltRounds);
-  next();
+const hashPassword = async (obj, next) => {
+  bcrypt
+    .hash(obj.password, environment.security.saltRounds)
+    .then((hash) => {
+      obj.password = hash;
+      next();
+    })
+    .catch(next);
 };
 const saveMiddleware = function (next) {
   const reseller: Reseller = this;
   if (!reseller.isModified("password")) {
     next();
   } else {
-    hashPassword(reseller.password, next);
+    hashPassword(reseller, next);
   }
 };
 
@@ -61,7 +66,7 @@ const updateMiddleware = function (next) {
   if (!this.getUpdate().password) {
     next();
   } else {
-    hashPassword(this.getUpdate().password, next);
+    hashPassword(this.getUpdate(), next);
   }
 };
 

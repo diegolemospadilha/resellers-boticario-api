@@ -29,7 +29,6 @@ const resellerSchema = new mongoose.Schema({
         type: String,
         select: false,
         minlength: 6,
-        maxlength: 8,
         required: true,
     },
     cpf: {
@@ -46,9 +45,14 @@ const resellerSchema = new mongoose.Schema({
         default: "Em validação",
     },
 });
-const hashPassword = (passwd, next) => __awaiter(this, void 0, void 0, function* () {
-    passwd = yield bcrypt.hashSync(passwd, environment_1.environment.security.saltRounds);
-    next();
+const hashPassword = (obj, next) => __awaiter(this, void 0, void 0, function* () {
+    bcrypt
+        .hash(obj.password, environment_1.environment.security.saltRounds)
+        .then((hash) => {
+        obj.password = hash;
+        next();
+    })
+        .catch(next);
 });
 const saveMiddleware = function (next) {
     const reseller = this;
@@ -56,7 +60,7 @@ const saveMiddleware = function (next) {
         next();
     }
     else {
-        hashPassword(reseller.password, next);
+        hashPassword(reseller, next);
     }
 };
 const updateMiddleware = function (next) {
@@ -64,7 +68,7 @@ const updateMiddleware = function (next) {
         next();
     }
     else {
-        hashPassword(this.getUpdate().password, next);
+        hashPassword(this.getUpdate(), next);
     }
 };
 resellerSchema.pre("save", saveMiddleware);
