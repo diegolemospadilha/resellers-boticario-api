@@ -45,4 +45,8 @@ export class Server {
       this.initRoutes(routes).then(() => this)
     );
   }
+
+  async shutdown() {
+    await mongoose.disconnect().then(() => this.application.close());
+  }
 }
