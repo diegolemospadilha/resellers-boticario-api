@@ -1,14 +1,18 @@
+import { calculateCashback } from "./../common/calculateCashback";
+import { purchaseSchema, PurchaseModel } from "./../purchases/purchase.model";
 import { environment } from "../common/environment";
 import { validateCPF } from "./../common/validators";
 import * as mongoose from "mongoose";
 import * as bcrypt from "bcrypt";
-import { userInfo } from "os";
+import { Purchase } from "../purchases/purchase.model";
 
 export interface Reseller extends mongoose.Document {
   name: string;
   email: string;
+  cpf: string;
   password: string;
   status: string;
+  purchases: Purchase[];
 }
 const resellerSchema = new mongoose.Schema({
   name: {
@@ -38,9 +42,10 @@ const resellerSchema = new mongoose.Schema({
       message: "Invalid CPF: {VALUE}",
     },
   },
-  status: {
-    type: String,
-    default: "Em validação",
+  purchases: {
+    type: [purchaseSchema],
+    select: false,
+    required: false,
   },
 });
 
@@ -54,7 +59,7 @@ const hashPassword = async (obj, next) => {
     .catch(next);
 };
 const saveMiddleware = function (next) {
-  const reseller: Reseller = this;
+  let reseller: Reseller = this;
   if (!reseller.isModified("password")) {
     next();
   } else {

@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const purchase_model_1 = require("./../purchases/purchase.model");
 const environment_1 = require("../common/environment");
 const validators_1 = require("./../common/validators");
 const mongoose = require("mongoose");
@@ -40,9 +41,10 @@ const resellerSchema = new mongoose.Schema({
             message: "Invalid CPF: {VALUE}",
         },
     },
-    status: {
-        type: String,
-        default: "Em validação",
+    purchases: {
+        type: [purchase_model_1.purchaseSchema],
+        select: false,
+        required: false,
     },
 });
 const hashPassword = (obj, next) => __awaiter(this, void 0, void 0, function* () {
@@ -55,7 +57,7 @@ const hashPassword = (obj, next) => __awaiter(this, void 0, void 0, function* ()
         .catch(next);
 });
 const saveMiddleware = function (next) {
-    const reseller = this;
+    let reseller = this;
     if (!reseller.isModified("password")) {
         next();
     }
