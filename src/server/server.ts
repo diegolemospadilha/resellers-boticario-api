@@ -46,7 +46,7 @@ export class Server {
     );
   }
 
-  async shutdown() {
-    await mongoose.disconnect().then(() => this.application.close());
+  shutdown() {
+    mongoose.disconnect().then(() => this.application.close());
   }
 }

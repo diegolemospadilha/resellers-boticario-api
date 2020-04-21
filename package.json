@@ -5,19 +5,25 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon dist/main.js",
-    "test": "jest"
+    "test": "ts-node src/jest.startup.ts"
   },
   "author": "Diego Lemos Padilha",
   "license": "ISC",
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "globals": {
+      "address": "http://localhost:3001"
+    }
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/mongoose": "^5.7.12",
     "@types/node": "^13.13.0",
     "@types/restify": "^8.4.2",
-    "nodemon": "^2.0.3"
+    "jest-cli": "^25.4.0",
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.9.0"
   },
   "dependencies": {
     "@types/jest": "^25.2.1",

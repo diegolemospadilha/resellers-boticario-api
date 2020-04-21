@@ -1,24 +1,8 @@
-import { resellersRouter } from "./reseller.router";
-import { Reseller } from "./reseller.model";
 import "jest";
 import * as request from "supertest";
 import { fail } from "assert";
-import { Server } from "../server/server";
-import { environment } from "../common/environment";
 
-let server: Server;
-let address: string;
-beforeAll(() => {
-  environment.db.url =
-    process.env.DB_URL || "mongodb://localhost/resellers-boticario-test-db";
-  environment.server.port = process.env.SERVER_PORT || 3001;
-  address = `http://localhost:${environment.server.port}`;
-  server = new Server();
-  server
-    .bootstrap([resellersRouter])
-    .then(() => Reseller.remove({}).exec())
-    .catch(console.error);
-});
+let address: string = (<any>global).address;
 
 test("get /resellers", () => {
   request(address)
@@ -59,6 +43,26 @@ test("post /resellers", () => {
     .catch(fail);
 });
 
-afterAll(() => {
-  return server.shutdown();
+test("put /resellers/:id", () => {
+  request(address)
+    .post("/resellers")
+    .send({
+      name: "Node.js Developer Boticario",
+      email: "node.developer@boticario.com",
+      password: "password",
+      cpf: "878.776.890-98",
+    })
+    .then((response) =>
+      request(address).put(`/users/${response.body._id}`).send({
+        name: "Python Developer Boticario - PUT",
+      })
+    )
+    .then((response) => {
+      expect(response.status).toBe(200);
+      expect(response.body._id).toBeDefined();
+      expect(response.body.name).toBe("Boticario Developer");
+      expect(response.body.email).toBe("node.developer@boticario.com");
+      expect(response.body.password).toBeUndefined();
+    })
+    .catch(fail);
 });
