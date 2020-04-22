@@ -1,3 +1,4 @@
+import { authorize, validateUserOperations } from "./../security/authz.handler";
 import {
   calculateCashback,
   calculateValueCashback,
@@ -56,23 +57,41 @@ class ResellersRouter extends ModelRouter<Reseller> {
   applyRoutes(application: restify.Server) {
     application.get("/resellers", this.findAll);
 
-    application.get("/resellers/:id", [this.validateId, this.findById]);
+    application.get("/resellers/:id", [
+      this.validateId,
+      authorize("reseller"),
+      this.findById,
+    ]);
 
     application.post("/resellers", this.save);
 
-    application.put("/resellers/:id", [this.validateId, this.replace]);
+    application.put("/resellers/:id", [
+      this.validateId,
+      validateUserOperations(),
+      this.replace,
+    ]);
 
-    application.patch("/resellers/:id", [this.validateId, this.update]);
+    application.patch("/resellers/:id", [
+      this.validateId,
+      validateUserOperations(),
+      this.update,
+    ]);
 
-    application.del("/resellers/:id", [this.validateId, this.delete]);
+    application.del("/resellers/:id", [
+      this.validateId,
+      validateUserOperations(),
+      this.delete,
+    ]);
 
     application.get("/resellers/:id/purchases", [
       this.validateId,
+      validateUserOperations(),
       this.findPurchases,
     ]);
 
     application.post("/resellers/:id/purchases", [
       this.validateId,
+      validateUserOperations(),
       this.addPurchase,
     ]);
 

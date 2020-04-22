@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const authz_handler_1 = require("./../security/authz.handler");
 const calculateCashback_1 = require("./../common/calculateCashback");
 const purchase_model_1 = require("./../purchases/purchase.model");
 const restify_errors_1 = require("restify-errors");
@@ -52,17 +53,35 @@ class ResellersRouter extends model_router_1.ModelRouter {
     }
     applyRoutes(application) {
         application.get("/resellers", this.findAll);
-        application.get("/resellers/:id", [this.validateId, this.findById]);
+        application.get("/resellers/:id", [
+            this.validateId,
+            authz_handler_1.authorize("reseller"),
+            this.findById,
+        ]);
         application.post("/resellers", this.save);
-        application.put("/resellers/:id", [this.validateId, this.replace]);
-        application.patch("/resellers/:id", [this.validateId, this.update]);
-        application.del("/resellers/:id", [this.validateId, this.delete]);
+        application.put("/resellers/:id", [
+            this.validateId,
+            authz_handler_1.validateUserOperations(),
+            this.replace,
+        ]);
+        application.patch("/resellers/:id", [
+            this.validateId,
+            authz_handler_1.validateUserOperations(),
+            this.update,
+        ]);
+        application.del("/resellers/:id", [
+            this.validateId,
+            authz_handler_1.validateUserOperations(),
+            this.delete,
+        ]);
         application.get("/resellers/:id/purchases", [
             this.validateId,
+            authz_handler_1.validateUserOperations(),
             this.findPurchases,
         ]);
         application.post("/resellers/:id/purchases", [
             this.validateId,
+            authz_handler_1.validateUserOperations(),
             this.addPurchase,
         ]);
         application.post("/resellers/auth", [auth_handler_1.authenticate]);

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const token_parser_1 = require("./../security/token.parser");
 const environment_1 = require("../common/environment");
 const restify = require("restify");
 const mongoose = require("mongoose");
@@ -24,6 +25,7 @@ class Server {
                 this.application.use(restify.plugins.queryParser());
                 this.application.use(restify.plugins.bodyParser());
                 this.application.use(merge_patch_parser_1.mergePatchBodyParser);
+                this.application.use(token_parser_1.tokenParser);
                 // applying routes
                 for (let router of routes) {
                     router.applyRoutes(this.application);

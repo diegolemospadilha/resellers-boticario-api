@@ -1,3 +1,4 @@
+import { tokenParser } from "./../security/token.parser";
 import { environment } from "../common/environment";
 import * as restify from "restify";
 import { Router } from "./../common/routes";
@@ -27,6 +28,8 @@ export class Server {
         this.application.use(restify.plugins.queryParser());
         this.application.use(restify.plugins.bodyParser());
         this.application.use(mergePatchBodyParser);
+        this.application.use(tokenParser);
+
         // applying routes
         for (let router of routes) {
           router.applyRoutes(this.application);

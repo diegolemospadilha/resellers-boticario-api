@@ -12,7 +12,9 @@ export interface Reseller extends mongoose.Document {
   password: string;
   status: string;
   purchases: Purchase[];
+  profile: string[];
   matches(password: string): boolean;
+  hasAny(...profiles: string[]): boolean;
 }
 
 export interface ResellerModel extends mongoose.Model<Reseller> {
@@ -52,6 +54,11 @@ const resellerSchema = new mongoose.Schema({
     select: false,
     required: false,
   },
+
+  profiles: {
+    type: [String],
+    required: true,
+  },
 });
 
 resellerSchema.statics.findByEmail = function (
@@ -63,6 +70,10 @@ resellerSchema.statics.findByEmail = function (
 
 resellerSchema.methods.matches = function (password: string): boolean {
   return bcrypt.compareSync(password, this.password);
+};
+
+resellerSchema.methods.hasAny = function (...profiles: string[]): boolean {
+  return profiles.some((profile) => this.profiles.indexOf(profile) !== -1);
 };
 
 const hashPassword = async (obj, next) => {
