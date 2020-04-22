@@ -7,7 +7,7 @@ import { NotFoundError } from "restify-errors";
 import { Reseller } from "./reseller.model";
 import { ModelRouter } from "../common/model-router";
 import * as restify from "restify";
-
+import { authenticate } from "../security/auth.handler";
 class ResellersRouter extends ModelRouter<Reseller> {
   constructor() {
     super(Reseller);
@@ -75,6 +75,8 @@ class ResellersRouter extends ModelRouter<Reseller> {
       this.validateId,
       this.addPurchase,
     ]);
+
+    application.post("/resellers/auth", [authenticate]);
   }
 }
 

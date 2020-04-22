@@ -22,7 +22,7 @@ class Router extends events_1.EventEmitter {
             return next();
         };
     }
-    renderAll(resp, next) {
+    renderAll(resp, next, options = {}) {
         return (documents) => {
             if (documents) {
                 documents.forEach((document) => {

@@ -5,6 +5,7 @@ const purchase_model_1 = require("./../purchases/purchase.model");
 const restify_errors_1 = require("restify-errors");
 const reseller_model_1 = require("./reseller.model");
 const model_router_1 = require("../common/model-router");
+const auth_handler_1 = require("../security/auth.handler");
 class ResellersRouter extends model_router_1.ModelRouter {
     constructor() {
         super(reseller_model_1.Reseller);
@@ -64,6 +65,7 @@ class ResellersRouter extends model_router_1.ModelRouter {
             this.validateId,
             this.addPurchase,
         ]);
+        application.post("/resellers/auth", [auth_handler_1.authenticate]);
     }
 }
 exports.resellersRouter = new ResellersRouter();

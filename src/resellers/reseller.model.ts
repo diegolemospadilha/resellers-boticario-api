@@ -1,5 +1,4 @@
-import { calculateCashback } from "./../common/calculateCashback";
-import { purchaseSchema, PurchaseModel } from "./../purchases/purchase.model";
+import { purchaseSchema } from "./../purchases/purchase.model";
 import { environment } from "../common/environment";
 import { validateCPF } from "./../common/validators";
 import * as mongoose from "mongoose";
@@ -13,7 +12,13 @@ export interface Reseller extends mongoose.Document {
   password: string;
   status: string;
   purchases: Purchase[];
+  matches(password: string): boolean;
 }
+
+export interface ResellerModel extends mongoose.Model<Reseller> {
+  findByEmail(email: string, projection?: string): Promise<Reseller>;
+}
+
 const resellerSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -49,6 +54,17 @@ const resellerSchema = new mongoose.Schema({
   },
 });
 
+resellerSchema.statics.findByEmail = function (
+  email: string,
+  projection: string
+) {
+  return this.findOne({ email }, projection);
+};
+
+resellerSchema.methods.matches = function (password: string): boolean {
+  return bcrypt.compareSync(password, this.password);
+};
+
 const hashPassword = async (obj, next) => {
   bcrypt
     .hash(obj.password, environment.security.saltRounds)
@@ -78,4 +94,7 @@ const updateMiddleware = function (next) {
 resellerSchema.pre("save", saveMiddleware);
 resellerSchema.pre("findByIdAndUpdate", updateMiddleware);
 resellerSchema.pre("updateOne", updateMiddleware);
-export const Reseller = mongoose.model<Reseller>("Reseller", resellerSchema);
+export const Reseller = mongoose.model<Reseller, ResellerModel>(
+  "Reseller",
+  resellerSchema
+);

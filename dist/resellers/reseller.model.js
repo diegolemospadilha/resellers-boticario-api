@@ -47,6 +47,12 @@ const resellerSchema = new mongoose.Schema({
         required: false,
     },
 });
+resellerSchema.statics.findByEmail = function (email, projection) {
+    return this.findOne({ email }, projection);
+};
+resellerSchema.methods.matches = function (password) {
+    return bcrypt.compareSync(password, this.password);
+};
 const hashPassword = (obj, next) => __awaiter(this, void 0, void 0, function* () {
     bcrypt
         .hash(obj.password, environment_1.environment.security.saltRounds)

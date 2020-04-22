@@ -23,7 +23,7 @@ export abstract class Router extends EventEmitter {
     };
   }
 
-  renderAll(resp: restify.Response, next: restify.Next) {
+  renderAll(resp: restify.Response, next: restify.Next, options: any = {}) {
     return (documents: any[]) => {
       if (documents) {
         documents.forEach((document) => {

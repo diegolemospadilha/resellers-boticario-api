@@ -3,6 +3,8 @@ import * as mongoose from "mongoose";
 import { NotFoundError } from "restify-errors";
 
 export abstract class ModelRouter<D extends mongoose.Document> extends Router {
+  pageSize: number = 2;
+
   constructor(protected model: mongoose.Model<D>) {
     super();
   }
