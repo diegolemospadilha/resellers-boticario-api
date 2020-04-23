@@ -10,8 +10,23 @@ export const authorize: (...profiles: string[]) => restify.RequestHandler = (
       req.authenticated !== undefined &&
       req.authenticated.hasAny(...profiles)
     ) {
+      req.log.debug(
+        "Reseller %s is authorized with profile %j on route %s . Required profiles %j ",
+        req.authenticated._id,
+        req.authenticated.profile,
+        req.path(),
+        profiles
+      );
       next();
     } else {
+      if (req.authenticated) {
+        req.log.debug(
+          "Permission denied for %s. Required profile %j . User profiles %j ",
+          req.authenticated._id,
+          profiles,
+          req.authenticated.profile
+        );
+      }
       next(new ForbiddenError("Permission denied"));
     }
   };

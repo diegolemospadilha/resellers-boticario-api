@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const logger_1 = require("./../common/logger");
 const token_parser_1 = require("./../security/token.parser");
 const environment_1 = require("../common/environment");
 const restify = require("restify");
@@ -19,9 +20,13 @@ class Server {
         return new Promise((resolve, reject) => {
             try {
                 this.application = restify.createServer({
-                    name: "meet-api",
+                    name: "reseller-bot-api",
                     version: "1.0.0",
+                    log: logger_1.logger,
                 });
+                this.application.pre(restify.plugins.requestLogger({
+                    log: logger_1.logger,
+                }));
                 this.application.use(restify.plugins.queryParser());
                 this.application.use(restify.plugins.bodyParser());
                 this.application.use(merge_patch_parser_1.mergePatchBodyParser);

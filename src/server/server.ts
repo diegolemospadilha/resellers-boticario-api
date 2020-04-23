@@ -1,3 +1,4 @@
+import { logger } from "./../common/logger";
 import { tokenParser } from "./../security/token.parser";
 import { environment } from "../common/environment";
 import * as restify from "restify";
@@ -21,10 +22,16 @@ export class Server {
     return new Promise((resolve, reject) => {
       try {
         this.application = restify.createServer({
-          name: "meet-api",
+          name: "reseller-bot-api",
           version: "1.0.0",
+          log: logger,
         });
 
+        this.application.pre(
+          restify.plugins.requestLogger({
+            log: logger,
+          })
+        );
         this.application.use(restify.plugins.queryParser());
         this.application.use(restify.plugins.bodyParser());
         this.application.use(mergePatchBodyParser);

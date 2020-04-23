@@ -5,4 +5,8 @@ export const environment = {
     saltRounds: process.env.SALT_ROUNDS || 10,
     apiSecret: process.env.API_SECRET || "resellers-bot-api",
   },
+  log: {
+    name: process.env.LOG_LEVEL || "reseller-boticario-api",
+    level: "debug",
+  },
 };
