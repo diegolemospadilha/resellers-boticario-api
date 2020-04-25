@@ -58,7 +58,7 @@ const resellerSchema = new mongoose.Schema({
 
   profiles: {
     type: [String],
-    required: true,
+    default: ["reseller"],
     select: true,
   },
 });

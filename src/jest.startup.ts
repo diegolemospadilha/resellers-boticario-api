@@ -13,7 +13,15 @@ const beforeAllTests = () => {
   server = new Server();
   return server
     .bootstrap([resellersRouter])
-    .then(() => Reseller.deleteMany({}));
+    .then(() => Reseller.deleteMany({}))
+    .then(() => {
+      let reseller1 = new Reseller();
+      (reseller1.name = "Reseller Tester 1"),
+        (reseller1.email = "reseller1@email.com"),
+        (reseller1.password = "password"),
+        (reseller1.profiles = ["reseller"]);
+      return reseller1.save();
+    });
 };
 
 const afterAllTests = () => {

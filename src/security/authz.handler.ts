@@ -7,7 +7,9 @@ export const authorize: (...profiles: string[]) => restify.RequestHandler = (
 ) => {
   return (req, resp, next) => {
     if (
+      //@ts-ignore
       req.authenticated !== undefined &&
+      //@ts-ignore
       req.authenticated.hasAny(...profiles)
     ) {
       next();
@@ -22,9 +24,11 @@ export const validateUserOperations: () => restify.RequestHandler = () => (
   resp,
   next
 ) => {
+  //@ts-ignore
   Reseller.findById(req.authenticated._id)
     .then((reseller) => {
       console.log("reseler aqui", reseller);
+      //@ts-ignore
       if (reseller._id === req.authenticated._id) {
         next();
       } else {

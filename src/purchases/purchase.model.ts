@@ -14,7 +14,6 @@ export const purchaseSchema = new mongoose.Schema({
   code: {
     type: String,
     minlength: 5,
-    unique: true,
     required: true,
   },
   price: {

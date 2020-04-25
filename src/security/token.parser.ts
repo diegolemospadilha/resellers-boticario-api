@@ -33,6 +33,7 @@ function applyBearer(
       Reseller.findByEmail(decoded.sub)
         .then((reseller) => {
           if (reseller) {
+            //@ts-ignore
             request.authenticated = reseller;
           }
           next();
