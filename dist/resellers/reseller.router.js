@@ -49,6 +49,7 @@ class ResellersRouter extends model_router_1.ModelRouter {
         this.on("beforeRender", (document) => {
             document.password = undefined;
             document.purchases = undefined;
+            document.profiles = undefined;
         });
     }
     applyRoutes(application) {

@@ -15,6 +15,7 @@ class ResellersRouter extends ModelRouter<Reseller> {
     this.on("beforeRender", (document) => {
       document.password = undefined;
       document.purchases = undefined;
+      document.profiles = undefined;
     });
   }
 

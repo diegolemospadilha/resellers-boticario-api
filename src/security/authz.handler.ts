@@ -19,7 +19,7 @@ export const authorize: (...profiles: string[]) => restify.RequestHandler = (
       );
       next();
     } else {
-      if (req.authenticated) {
+      if (req.authenticated._id) {
         req.log.debug(
           "Permission denied for %s. Required profile %j . User profiles %j ",
           req.authenticated._id,

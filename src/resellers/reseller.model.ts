@@ -44,6 +44,7 @@ const resellerSchema = new mongoose.Schema({
     type: String,
     required: false,
     unique: true,
+    match: /[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}$/,
     validate: {
       validator: validateCPF,
       message: "Invalid CPF: {VALUE}",
@@ -58,6 +59,7 @@ const resellerSchema = new mongoose.Schema({
   profiles: {
     type: [String],
     required: true,
+    select: false,
   },
 });
 

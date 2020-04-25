@@ -1,10 +1,7 @@
-import { authenticate } from "./auth.handler";
 import { Reseller } from "./../resellers/reseller.model";
-import { NotAuthorizedError } from "restify-errors";
 import * as restify from "restify";
 import * as jwt from "jsonwebtoken";
 import { environment } from "./../common/environment";
-import { userInfo } from "os";
 
 export const tokenParser: restify.RequestHandler = (req, resp, next) => {
   const token = extractToken(req);
