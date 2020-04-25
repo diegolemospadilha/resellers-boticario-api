@@ -50,7 +50,7 @@ const resellerSchema = new mongoose.Schema({
     profiles: {
         type: [String],
         required: true,
-        select: false,
+        select: true,
     },
 });
 resellerSchema.statics.findByEmail = function (email, projection) {

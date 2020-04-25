@@ -57,31 +57,37 @@ class ResellersRouter extends model_router_1.ModelRouter {
         application.get("/resellers/:id", [
             this.validateId,
             authz_handler_1.authorize("reseller"),
+            authz_handler_1.validateUserOperations(),
             this.findById,
         ]);
         application.post("/resellers", this.save);
         application.put("/resellers/:id", [
             this.validateId,
+            authz_handler_1.authorize("reseller"),
             authz_handler_1.validateUserOperations(),
             this.replace,
         ]);
         application.patch("/resellers/:id", [
             this.validateId,
+            authz_handler_1.authorize("reseller"),
             authz_handler_1.validateUserOperations(),
             this.update,
         ]);
         application.del("/resellers/:id", [
             this.validateId,
+            authz_handler_1.authorize("reseller"),
             authz_handler_1.validateUserOperations(),
             this.delete,
         ]);
-        application.get("/resellers/:id/purchases", [
+        application.get("/resellers/:id/purchases", (req) => [
             this.validateId,
+            authz_handler_1.authorize("reseller"),
             authz_handler_1.validateUserOperations(),
             this.findPurchases,
         ]);
         application.post("/resellers/:id/purchases", [
             this.validateId,
+            authz_handler_1.authorize("reseller"),
             authz_handler_1.validateUserOperations(),
             this.addPurchase,
         ]);

@@ -12,7 +12,7 @@ export interface Reseller extends mongoose.Document {
   password: string;
   status: string;
   purchases: Purchase[];
-  profile: string[];
+  profiles: string[];
   matches(password: string): boolean;
   hasAny(...profiles: string[]): boolean;
 }
@@ -59,7 +59,7 @@ const resellerSchema = new mongoose.Schema({
   profiles: {
     type: [String],
     required: true,
-    select: false,
+    select: true,
   },
 });
 

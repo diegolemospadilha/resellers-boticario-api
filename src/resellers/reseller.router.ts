@@ -61,6 +61,7 @@ class ResellersRouter extends ModelRouter<Reseller> {
     application.get("/resellers/:id", [
       this.validateId,
       authorize("reseller"),
+      validateUserOperations(),
       this.findById,
     ]);
 
@@ -68,30 +69,35 @@ class ResellersRouter extends ModelRouter<Reseller> {
 
     application.put("/resellers/:id", [
       this.validateId,
+      authorize("reseller"),
       validateUserOperations(),
       this.replace,
     ]);
 
     application.patch("/resellers/:id", [
       this.validateId,
+      authorize("reseller"),
       validateUserOperations(),
       this.update,
     ]);
 
     application.del("/resellers/:id", [
       this.validateId,
+      authorize("reseller"),
       validateUserOperations(),
       this.delete,
     ]);
 
-    application.get("/resellers/:id/purchases", [
+    application.get("/resellers/:id/purchases", (req: restify.Request) => [
       this.validateId,
+      authorize("reseller"),
       validateUserOperations(),
       this.findPurchases,
     ]);
 
     application.post("/resellers/:id/purchases", [
       this.validateId,
+      authorize("reseller"),
       validateUserOperations(),
       this.addPurchase,
     ]);

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/main.js",
+    "start dev": "node dist/main.js",
     "test": "ts-node src/jest.startup.ts"
   },
   "author": "Diego Lemos Padilha",
