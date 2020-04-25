@@ -1,14 +1,16 @@
+import { environment } from "./../common/environment";
 import { authorize, validateUserOperations } from "./../security/authz.handler";
 import {
   calculateCashback,
   calculateValueCashback,
 } from "./../common/calculateCashback";
 import { Purchase, PurchaseModel } from "./../purchases/purchase.model";
-import { NotFoundError } from "restify-errors";
+import { NotFoundError, BadRequestError } from "restify-errors";
 import { Reseller } from "./reseller.model";
 import { ModelRouter } from "../common/model-router";
 import * as restify from "restify";
 import { authenticate } from "../security/auth.handler";
+import * as request from "request";
 class ResellersRouter extends ModelRouter<Reseller> {
   constructor() {
     super(Reseller);
@@ -19,11 +21,41 @@ class ResellersRouter extends ModelRouter<Reseller> {
     });
   }
 
+  getCashback = (req, res, next) => {
+    let cpf: string = req.query.cpf
+      .replace(".", "")
+      .replace(".", "")
+      .replace("-", "");
+    if (cpf.length === 11) {
+      console.log("cpf: ", cpf);
+      var options = {
+        method: "GET",
+        url: `${environment.bot.url}cashback?cpf=${cpf}`,
+        headers: {
+          authorization: environment.bot.token,
+          "content-type": "application/json",
+          accept: "application/json",
+        },
+        json: true,
+      };
+      request(options, (err, resp, body) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("body: ", body);
+        res.send(body);
+        next();
+      });
+    } else {
+      return next(new BadRequestError("Invalid CPF"));
+    }
+  };
+
   findPurchases = (req, res, next) => {
     Reseller.findById(req.params.id, "+purchases")
       .then((reseller) => {
         if (!reseller) {
-          new NotFoundError("Reseller not found");
+          return new NotFoundError("Reseller not found");
         } else {
           res.json(reseller.purchases);
           next();
@@ -103,6 +135,8 @@ class ResellersRouter extends ModelRouter<Reseller> {
     ]);
 
     application.post("/resellers/auth", [authenticate]);
+
+    application.get("/resellers/cashback", this.getCashback);
   }
 }
 

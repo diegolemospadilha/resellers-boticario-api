@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const environment_1 = require("./../common/environment");
 const authz_handler_1 = require("./../security/authz.handler");
 const calculateCashback_1 = require("./../common/calculateCashback");
 const purchase_model_1 = require("./../purchases/purchase.model");
@@ -7,14 +8,45 @@ const restify_errors_1 = require("restify-errors");
 const reseller_model_1 = require("./reseller.model");
 const model_router_1 = require("../common/model-router");
 const auth_handler_1 = require("../security/auth.handler");
+const request = require("request");
 class ResellersRouter extends model_router_1.ModelRouter {
     constructor() {
         super(reseller_model_1.Reseller);
+        this.getCashback = (req, res, next) => {
+            let cpf = req.query.cpf
+                .replace(".", "")
+                .replace(".", "")
+                .replace("-", "");
+            if (cpf.length === 11) {
+                console.log("cpf: ", cpf);
+                var options = {
+                    method: "GET",
+                    url: `${environment_1.environment.bot.url}cashback?cpf=${cpf}`,
+                    headers: {
+                        authorization: environment_1.environment.bot.token,
+                        "content-type": "application/json",
+                        accept: "application/json",
+                    },
+                    json: true,
+                };
+                request(options, (err, resp, body) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log("body: ", body);
+                    res.send(body);
+                    next();
+                });
+            }
+            else {
+                return next(new restify_errors_1.BadRequestError("Invalid CPF"));
+            }
+        };
         this.findPurchases = (req, res, next) => {
             reseller_model_1.Reseller.findById(req.params.id, "+purchases")
                 .then((reseller) => {
                 if (!reseller) {
-                    new restify_errors_1.NotFoundError("Reseller not found");
+                    return new restify_errors_1.NotFoundError("Reseller not found");
                 }
                 else {
                     res.json(reseller.purchases);
@@ -92,6 +124,7 @@ class ResellersRouter extends model_router_1.ModelRouter {
             this.addPurchase,
         ]);
         application.post("/resellers/auth", [auth_handler_1.authenticate]);
+        application.get("/resellers/cashback", this.getCashback);
     }
 }
 exports.resellersRouter = new ResellersRouter();
