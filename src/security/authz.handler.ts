@@ -12,6 +12,7 @@ export const authorize: (...profiles: string[]) => restify.RequestHandler = (
       //@ts-ignore
       req.authenticated.hasAny(...profiles)
     ) {
+      console.log("profiles: ", ...profiles);
       next();
     } else {
       next(new ForbiddenError("Permission denied"));
@@ -20,16 +21,15 @@ export const authorize: (...profiles: string[]) => restify.RequestHandler = (
 };
 
 export const validateUserOperations: () => restify.RequestHandler = () => (
-  req,
+  req: restify.Request,
   resp,
   next
 ) => {
   //@ts-ignore
   Reseller.findById(req.authenticated._id)
     .then((reseller) => {
-      console.log("reseler aqui", reseller);
       //@ts-ignore
-      if (reseller._id === req.authenticated._id) {
+      if (reseller.email === req.authenticated.email) {
         next();
       } else {
         next(new ForbiddenError("Permission denied"));

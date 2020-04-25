@@ -30,7 +30,7 @@ class ResellersRouter extends ModelRouter<Reseller> {
       console.log("cpf: ", cpf);
       var options = {
         method: "GET",
-        url: `${environment.bot.url}cashback?cpf=${cpf}`,
+        url: `${environment.bot.url}/cashback?cpf=${cpf}`,
         headers: {
           authorization: environment.bot.token,
           "content-type": "application/json",
@@ -120,7 +120,7 @@ class ResellersRouter extends ModelRouter<Reseller> {
       this.delete,
     ]);
 
-    application.get("/resellers/:id/purchases", (req: restify.Request) => [
+    application.get("/resellers/:id/purchases", [
       this.validateId,
       authorize("reseller"),
       validateUserOperations(),

@@ -21,7 +21,7 @@ class ResellersRouter extends model_router_1.ModelRouter {
                 console.log("cpf: ", cpf);
                 var options = {
                     method: "GET",
-                    url: `${environment_1.environment.bot.url}cashback?cpf=${cpf}`,
+                    url: `${environment_1.environment.bot.url}/cashback?cpf=${cpf}`,
                     headers: {
                         authorization: environment_1.environment.bot.token,
                         "content-type": "application/json",
@@ -111,7 +111,7 @@ class ResellersRouter extends model_router_1.ModelRouter {
             authz_handler_1.validateUserOperations(),
             this.delete,
         ]);
-        application.get("/resellers/:id/purchases", (req) => [
+        application.get("/resellers/:id/purchases", [
             this.validateId,
             authz_handler_1.authorize("reseller"),
             authz_handler_1.validateUserOperations(),
