@@ -4,7 +4,8 @@
   "description": "API to Boticario's resellers",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/main.js",
+    "build": "tsc",
+    "start": "node ./dist/main.js",
     "test": "ts-node src/jest.startup.ts"
   },
   "author": "Diego Lemos Padilha",
