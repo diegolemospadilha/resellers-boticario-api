@@ -8,6 +8,15 @@
 </h4>
 
 <p align="center">
+  <a href="https://img.shields.io/github/repo-size/diegolemospadilha/resellers-boticario-api">
+    <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/diegolemospadilha/resellers-boticario-api">
+  </a> 
+  <a href="https://img.shields.io/github/languages/top/diegolemospadilha/resellers-boticario-api">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/diegolemospadilha/resellers-boticario-api">
+  </a>
+  <a href="https://img.shields.io/github/last-commit/diegolemospadilha/resellers-boticario-api">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/diegolemospadilha/resellers-boticario-api">
+  </a>
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License MIT">
   </a>
@@ -17,7 +26,7 @@
   <a href="#rocket-technologies">Technologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#instalação">Instalação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#orange_book-documentação">Documentação da API</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-licença">License</a>
+  <a href="#memo-licença">Licença</a>
 </p>
 
 ## :rocket: Tecnologias
