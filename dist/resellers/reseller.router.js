@@ -13,33 +13,38 @@ class ResellersRouter extends model_router_1.ModelRouter {
     constructor() {
         super(reseller_model_1.Reseller);
         this.getCashback = (req, res, next) => {
-            let cpf = req.query.cpf
-                .replace(".", "")
-                .replace(".", "")
-                .replace("-", "");
-            if (cpf.length === 11) {
-                console.log("cpf: ", cpf);
-                var options = {
-                    method: "GET",
-                    url: `${environment_1.environment.bot.url}/cashback?cpf=${cpf}`,
-                    headers: {
-                        authorization: environment_1.environment.bot.token,
-                        "content-type": "application/json",
-                        accept: "application/json",
-                    },
-                    json: true,
-                };
-                request(options, (err, resp, body) => {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    console.log("body: ", body);
-                    res.send(body);
-                    next();
-                });
+            if (req.query.cpf) {
+                let cpf = req.query.cpf
+                    .replace(".", "")
+                    .replace(".", "")
+                    .replace("-", "");
+                if (cpf.length === 11) {
+                    console.log("cpf: ", cpf);
+                    var options = {
+                        method: "GET",
+                        url: `${environment_1.environment.bot.url}/cashback?cpf=${cpf}`,
+                        headers: {
+                            authorization: environment_1.environment.bot.token,
+                            "content-type": "application/json",
+                            accept: "application/json",
+                        },
+                        json: true,
+                    };
+                    request(options, (err, resp, body) => {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        console.log("body: ", body);
+                        res.send(body);
+                        next();
+                    });
+                }
+                else {
+                    return next(new restify_errors_1.BadRequestError("Invalid CPF"));
+                }
             }
             else {
-                return next(new restify_errors_1.BadRequestError("Invalid CPF"));
+                return next(new restify_errors_1.BadRequestError("CPF is required"));
             }
         };
         this.findPurchases = (req, res, next) => {

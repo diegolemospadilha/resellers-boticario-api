@@ -22,32 +22,36 @@ class ResellersRouter extends ModelRouter<Reseller> {
   }
 
   getCashback = (req, res, next) => {
-    let cpf: string = req.query.cpf
-      .replace(".", "")
-      .replace(".", "")
-      .replace("-", "");
-    if (cpf.length === 11) {
-      console.log("cpf: ", cpf);
-      var options = {
-        method: "GET",
-        url: `${environment.bot.url}/cashback?cpf=${cpf}`,
-        headers: {
-          authorization: environment.bot.token,
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-        json: true,
-      };
-      request(options, (err, resp, body) => {
-        if (err) {
-          return console.log(err);
-        }
-        console.log("body: ", body);
-        res.send(body);
-        next();
-      });
+    if (req.query.cpf) {
+      let cpf: string = req.query.cpf
+        .replace(".", "")
+        .replace(".", "")
+        .replace("-", "");
+      if (cpf.length === 11) {
+        console.log("cpf: ", cpf);
+        var options = {
+          method: "GET",
+          url: `${environment.bot.url}/cashback?cpf=${cpf}`,
+          headers: {
+            authorization: environment.bot.token,
+            "content-type": "application/json",
+            accept: "application/json",
+          },
+          json: true,
+        };
+        request(options, (err, resp, body) => {
+          if (err) {
+            return console.log(err);
+          }
+          console.log("body: ", body);
+          res.send(body);
+          next();
+        });
+      } else {
+        return next(new BadRequestError("Invalid CPF"));
+      }
     } else {
-      return next(new BadRequestError("Invalid CPF"));
+      return next(new BadRequestError("CPF is required"));
     }
   };
 

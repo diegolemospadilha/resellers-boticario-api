@@ -15,26 +15,27 @@
 
 <p align="center">
   <a href="#rocket-technologies">Technologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#instalacao">Instalação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#instalação">Instalação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#orange_book-documentação">Documentação da API</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-license">License</a>
+  <a href="#memo-licença">License</a>
 </p>
 
 ## :rocket: Tecnologias
+
 Esse projeto foi desenvolvido com base no desafio proposto pelo time do [Grupo Boticário](https://github.com/grupoboticario) com as seguintes tecnologias:
 
--  [Nodejs](https://nodejs.org/)
--  [Typescript](https://www.typescriptlang.org/)
--  [Restify](http://restify.com/)
--  [Restify Errors](https://github.com/restify/errors)
--  [MongoDB](https://www.mongodb.com/)
--  [Mongoosejs](https://mongoosejs.com/)
--  [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
--  [Axios](https://github.com/axios/axios)
--  [Supertest](https://github.com/visionmedia/supertest)
--  [Jest](https://jestjs.io)
--  [Heroku](https://www.heroku.com/)
--  [VS Code](https://code.visualstudio.com/) com [ESLint](https://eslint.org/)
+- [Nodejs](https://nodejs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Restify](http://restify.com/)
+- [Restify Errors](https://github.com/restify/errors)
+- [MongoDB](https://www.mongodb.com/)
+- [Mongoosejs](https://mongoosejs.com/)
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+- [Axios](https://github.com/axios/axios)
+- [Supertest](https://github.com/visionmedia/supertest)
+- [Jest](https://jestjs.io)
+- [Heroku](https://www.heroku.com/)
+- [VS Code](https://code.visualstudio.com/) com [ESLint](https://eslint.org/)
 
 ## 💻 Instalação
 
@@ -49,6 +50,7 @@ $ cd resellers-boticario
 $ npm install
 
 # Rode o projeto
+# Obs: Para que este comando funcione corretamente é necessário ter o mongodb instalado e inicializado
 $ npm start dev
 
 # Executar os testes
@@ -57,9 +59,9 @@ $ npm test
 
 ## :orange_book: Documentação
 
-A documentação da API está disponível [aqui](https://documenter.getpostman.com/view/6657902/SzfB17Kj) e também dentro do diretório postman/collections.
-Foi criada utilizando a ferramenta [Postman](https://www.postman.com/). Para visualiza-lá em sua máquina local, primeiramente faça o download do aplicativo. 
-Na sequência, abra a ferramenta e no canto superior esquerdo clique com o botão na Aba *(Import > Depois arraste o arquivo resellers-boticario-collections.json para dentro do quadro e Clique em OK)*
+A documentação da API está disponível [aqui](https://documenter.getpostman.com/view/6657902/SzfB17Kj) e também dentro do diretório /collections.
+Esta documentação foi criada utilizando a ferramenta [Postman](https://www.postman.com/). Para visualiza-lá em sua máquina local, primeiramente faça o download do aplicativo.
+Na sequência, abra a ferramenta e no canto superior esquerdo clique com o botão na Aba _(Import > Depois arraste o arquivo resellers-boticario.postman_collection para dentro do quadro e Clique em OK)_
 
 ## :memo: Licença
 
