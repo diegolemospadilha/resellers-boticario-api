@@ -58,11 +58,13 @@ $ npm test
 ## :orange_book: Documentação
 
 A documentação da API está disponível [aqui](https://documenter.getpostman.com/view/6657902/SzfB17Kj) e também dentro do diretório postman/collections.
-Foi criada utilizando a ferramenta (Postman)[https://www.postman.com/]. Para visualiza-lá em sua máquina local, faça o download, abra o aplicativo
-e clique com no canto superior esquerdo em (Import > arraste o arquivo resellers-boticario-collections.json para dentro do quadro e depois Clique em OK)
+Foi criada utilizando a ferramenta [Postman](https://www.postman.com/). Para visualiza-lá em sua máquina local, primeiramente faça o download do aplicativo. 
+Na sequência, abra a ferramenta e no canto superior esquerdo clique com o botão na Aba *(Import > Depois arraste o arquivo resellers-boticario-collections.json para dentro do quadro e Clique em OK)*
 
 ## :memo: Licença
 
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
+
+---
 
 Feito ♥ by Diego Lemos Padilha :wave: [Entre em contato!](https://www.linkedin.com/in/diegolemospadilha/)
